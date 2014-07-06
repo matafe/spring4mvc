@@ -1,4 +1,4 @@
-package com.matafe.springmvc.services;
+package com.matafe.springmvc.core.message.service;
 
 import java.util.List;
 
@@ -7,19 +7,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.matafe.springmvc.entities.Message;
-import com.matafe.springmvc.repositories.MessageRepository;
-import com.matafe.springmvc.repositories.UserRepository;
+import com.matafe.springmvc.core.message.Message;
+import com.matafe.springmvc.core.message.repository.MessageRepository;
+import com.matafe.springmvc.core.security.repository.UserRepository;
+import com.matafe.springmvc.core.util.AbstractQueryService;
 
 /**
+ * <p>
+ * Message Query Service.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class MessageQueryService {
+public class MessageQueryService extends AbstractQueryService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -28,7 +29,7 @@ public class MessageQueryService {
 	private MessageRepository messageRepository;
 
 	public List<Message> findAllMessages() {
-		return messageRepository.findAll(new Sort(Sort.Direction.DESC,
+		return this.messageRepository.findAll(new Sort(Sort.Direction.DESC,
 				"createdBy"));
 	}
 
@@ -39,11 +40,11 @@ public class MessageQueryService {
 	public List<Message> findAllMessages(int page, int size) {
 		Pageable pageable = new PageRequest(page, size, new Sort(
 				Sort.Direction.DESC, "createdBy"));
-		return messageRepository.findAll(pageable).getContent();
+		return this.messageRepository.findAll(pageable).getContent();
 	}
 
-	public List<Message> findMessagesByUser(int userId) {
-		return messageRepository.findByCreatedById(userId);
+	public List<Message> findMessagesByUser(Long userId) {
+		return this.messageRepository.findByCreatedById(userId);
 	}
 
 }

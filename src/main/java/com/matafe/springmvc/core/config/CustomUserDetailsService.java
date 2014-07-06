@@ -1,4 +1,4 @@
-package com.matafe.springmvc.config;
+package com.matafe.springmvc.core.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.matafe.springmvc.entities.Role;
-import com.matafe.springmvc.repositories.UserRepository;
+import com.matafe.springmvc.core.security.Role;
+import com.matafe.springmvc.core.security.repository.UserRepository;
 
 /**
  * @author Mauricio T. Ferraz
@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		try {
-			com.matafe.springmvc.entities.User domainUser = userRepository
+			com.matafe.springmvc.core.security.User domainUser = userRepository
 					.findByUserName(username);
 			return new SecurityUser(domainUser);
 		} catch (Exception e) {
@@ -37,10 +37,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 	}
 
 	public static List<GrantedAuthority> getGrantedAuthorities(
-			com.matafe.springmvc.entities.User user) {
+			com.matafe.springmvc.core.security.User user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		for (Role role : user.getRoles()) {
-			authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
 		return authorities;
 	}

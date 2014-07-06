@@ -7,10 +7,11 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+
 //import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.matafe.springmvc.config.AppConfig;
+import com.matafe.springmvc.core.config.AppConfig;
 
 /**
  * @author Mauricio T. Ferraz

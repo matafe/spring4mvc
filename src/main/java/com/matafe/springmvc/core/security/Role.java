@@ -1,4 +1,4 @@
-package com.matafe.springmvc.entities;
+package com.matafe.springmvc.core.security;
 
 import java.io.Serializable;
 
@@ -10,47 +10,56 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * <p>
+ * Represents a Role.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Entity
 @Table(name = "ROLES")
 public class Role implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Integer id;
-	// @Column(name="username", nullable=false)
-	// private String userName;
-	@Column(name = "name", nullable = false)
-	private String roleName;
+	private Long id;
+
+	@Column(nullable = false)
+	private String name;
 
 	public Role() {
 	}
 
-	public Role(String roleName) {
-		this.roleName = roleName;
+	public Role(String name) {
+		this.name = name;
 	}
 
-	public Role(Integer id, String roleName) {
+	public Role(Long id, String name) {
 		this.id = id;
-		this.roleName = roleName;
+		this.name = name;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public String getName() {
+		return name;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + "]";
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.matafe.springmvc.web;
+package com.matafe.springmvc.web.security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,37 +10,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.matafe.springmvc.entities.User;
-import com.matafe.springmvc.services.UserService;
-import com.matafe.springmvc.web.model.AjaxResponse;
-import com.matafe.springmvc.web.model.AjaxResponseBuilder;
+import com.matafe.springmvc.core.security.User;
+import com.matafe.springmvc.core.security.service.SecurityQueryService;
+import com.matafe.springmvc.core.security.service.SecurityService;
+import com.matafe.springmvc.web.util.BaseController;
+import com.matafe.springmvc.web.util.model.AjaxResponse;
+import com.matafe.springmvc.web.util.model.AjaxResponseBuilder;
 
 /**
+ * User Controller
+ * 
  * @author Mauricio T. Ferraz
  */
 @Controller
-public class UserController extends BaseController
-{
+public class UserController extends BaseController {
 	@Autowired
-	private UserService userService;
+	private SecurityService userService;
+
+	@Autowired
+	private SecurityQueryService userQueryService;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String loginForm(Model model)
-	{
+	public String loginForm(Model model) {
 		model.addAttribute("user", new User());
 		return "login";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String registrationForm(Model model)
-	{
+	public String registrationForm(Model model) {
 		model.addAttribute("user", new User());
 		return "register";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String handleRegistration(@ModelAttribute("user") User user, BindingResult errors, Model model)
-	{
+	public String handleRegistration(@ModelAttribute("user") User user,
+			BindingResult errors, Model model) {
 		if (errors.hasErrors()) {
 			return "register";
 		}
@@ -56,11 +60,12 @@ public class UserController extends BaseController
 
 	@ResponseBody
 	@RequestMapping(value = "/checkUserNameExists", produces = "application/json")
-	public AjaxResponse checkUserNameExists(@RequestParam("userName") String userName)
-	{
-		boolean exists = userService.checkUserNameExists(userName);
+	public AjaxResponse checkUserNameExists(
+			@RequestParam("userName") String userName) {
+		boolean exists = userQueryService.checkUserNameExists(userName);
 		if (exists) {
-			return new AjaxResponseBuilder().notOk().error("UserName [" + userName + "] already exist").build();
+			return new AjaxResponseBuilder().notOk()
+					.error("UserName [" + userName + "] already exist").build();
 		} else {
 			return new AjaxResponseBuilder().ok().build();
 		}
@@ -68,11 +73,11 @@ public class UserController extends BaseController
 
 	@ResponseBody
 	@RequestMapping(value = "/checkEmailExists", produces = "application/json")
-	public AjaxResponse checkEmailExists(@RequestParam("email") String email)
-	{
-		boolean exists = userService.checkEmailExists(email);
+	public AjaxResponse checkEmailExists(@RequestParam("email") String email) {
+		boolean exists = userQueryService.checkEmailExists(email);
 		if (exists) {
-			return new AjaxResponseBuilder().notOk().error("Email [" + email + "] already exist").build();
+			return new AjaxResponseBuilder().notOk()
+					.error("Email [" + email + "] already exist").build();
 		} else {
 			return new AjaxResponseBuilder().ok().build();
 		}

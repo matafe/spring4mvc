@@ -1,5 +1,6 @@
-package com.matafe.springmvc.config;
+package com.matafe.springmvc.core.config;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
@@ -33,41 +34,40 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
+ * <p>
+ * Application Core Configuration.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Configuration
-@ComponentScan(basePackages = { "com.matafe.springmvc" }, excludeFilters = {
+@ComponentScan(basePackages = { "com.matafe.springmvc.core" }, excludeFilters = {
 		@ComponentScan.Filter(value = Controller.class, type = FilterType.ANNOTATION),
 		@ComponentScan.Filter(value = EnableWebMvc.class, type = FilterType.ANNOTATION) })
 @EnableScheduling
 @EnableAspectJAutoProxy
 @EnableCaching
 @EnableAsync
-@EnableJpaRepositories(basePackages = { "com.matafe.springmvc.repositories" })
+@EnableJpaRepositories(basePackages = { "com.matafe.springmvc.core" })
 @EnableTransactionManagement
 @PropertySource(value = { "classpath:application.properties" })
-public class AppConfig
-{
+public class AppConfig {
 
 	@Autowired
 	private Environment env;
 
 	@Bean
-	public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer()
-	{
+	public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
 	@Bean
-	public PlatformTransactionManager transactionManager()
-	{
+	public PlatformTransactionManager transactionManager() {
 		EntityManagerFactory factory = entityManagerFactory().getObject();
 		return new JpaTransactionManager(factory);
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory()
-	{
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -77,10 +77,11 @@ public class AppConfig
 
 		factory.setDataSource(dataSource());
 		factory.setJpaVendorAdapter(vendorAdapter);
-		factory.setPackagesToScan("com.matafe.springmvc.entities");
+		factory.setPackagesToScan("com.matafe.springmvc.core");
 
 		Properties jpaProperties = new Properties();
-		jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+		jpaProperties.put("hibernate.hbm2ddl.auto",
+				env.getProperty("hibernate.hbm2ddl.auto"));
 		factory.setJpaProperties(jpaProperties);
 
 		factory.afterPropertiesSet();
@@ -89,14 +90,12 @@ public class AppConfig
 	}
 
 	@Bean
-	public HibernateExceptionTranslator hibernateExceptionTranslator()
-	{
+	public HibernateExceptionTranslator hibernateExceptionTranslator() {
 		return new HibernateExceptionTranslator();
 	}
 
 	@Bean
-	public DataSource dataSource()
-	{
+	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
 		dataSource.setUrl(env.getProperty("jdbc.url"));
@@ -106,11 +105,20 @@ public class AppConfig
 	}
 
 	@Bean
-	public CacheManager cacheManager()
-	{
+	public CacheManager cacheManager() {
+		ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
+		cacheManager.setCacheNames(Arrays.asList("users", "messages"));
 		return new ConcurrentMapCacheManager();
+		// configure and return an
+		// implementation of Spring's
+		// CacheManager SPI
+		// SimpleCacheManager cacheManager = new SimpleCacheManager();
+		// cacheManager.setCaches(Arrays.asList(new
+		// ConcurrentMapCache("default")));
+		// return cacheManager;
+
 	}
-	
+
 	@Bean
 	public JavaMailSenderImpl javaMailSenderImpl() {
 		JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
@@ -119,13 +127,13 @@ public class AppConfig
 		mailSenderImpl.setProtocol(env.getProperty("smtp.protocol"));
 		mailSenderImpl.setUsername(env.getProperty("smtp.username"));
 		mailSenderImpl.setPassword(env.getProperty("smtp.password"));
-		
+
 		Properties javaMailProps = new Properties();
 		javaMailProps.put("mail.smtp.auth", true);
 		javaMailProps.put("mail.smtp.starttls.enable", true);
-		
+
 		mailSenderImpl.setJavaMailProperties(javaMailProps);
-		
+
 		return mailSenderImpl;
 	}
 }

@@ -1,4 +1,4 @@
-package com.matafe.springmvc.entities;
+package com.matafe.springmvc.core.security;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,29 +24,43 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.matafe.springmvc.core.message.Message;
+
 /**
+ * <p>
+ * Represents an User.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Integer id;
+	private Long id;
+
 	@Column(name = "username", nullable = false, unique = true, length = 50)
 	private String userName;
+
 	@Column(name = "password", nullable = false, length = 50)
 	private String password;
+
 	@Column(name = "firstname", nullable = false, length = 50)
 	private String firstName;
+
 	@Column(name = "lastname", length = 50)
 	private String lastName;
+
 	@Column(name = "email", nullable = false, unique = true, length = 50)
 	private String email;
+
 	@Temporal(TemporalType.DATE)
 	private Date dob;
+
 	private boolean enabled = true;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -61,11 +75,11 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(Integer id) {
+	public User(Long id) {
 		this.id = id;
 	}
 
-	public User(Integer id, String userName, String password, String firstName,
+	public User(Long id, String userName, String password, String firstName,
 			String email) {
 		this.id = id;
 		this.userName = userName;
@@ -74,7 +88,7 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public User(Integer id, String userName, String password, String firstName,
+	public User(Long id, String userName, String password, String firstName,
 			String lastName, String email, Date dob) {
 		this.id = id;
 		this.userName = userName;
@@ -85,11 +99,11 @@ public class User implements Serializable {
 		this.dob = dob;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -167,6 +181,11 @@ public class User implements Serializable {
 
 	public void addRoles(Role... roles) {
 		this.roles.addAll(Arrays.asList(roles));
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + userName + "]";
 	}
 
 }

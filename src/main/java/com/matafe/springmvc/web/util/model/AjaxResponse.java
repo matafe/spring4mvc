@@ -1,4 +1,4 @@
-package com.matafe.springmvc.web.model;
+package com.matafe.springmvc.web.util.model;
 
 import java.util.ArrayList;
 import java.util.List;

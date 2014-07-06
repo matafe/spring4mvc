@@ -1,13 +1,16 @@
-package com.matafe.springmvc.repositories;
+package com.matafe.springmvc.core.security.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.matafe.springmvc.entities.User;
+import com.matafe.springmvc.core.security.User;
 
 /**
+ * <p>
+ * User Repository.
+ * 
  * @author Mauricio T. Ferraz
  */
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByEmail(String email);
 

@@ -1,4 +1,4 @@
-package com.matafe.springmvc.web;
+package com.matafe.springmvc.web.message.controller;
 
 import java.util.List;
 
@@ -15,22 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.matafe.springmvc.entities.Message;
-import com.matafe.springmvc.services.EmailService;
-import com.matafe.springmvc.services.MessageQueryService;
-import com.matafe.springmvc.services.MessageService;
-import com.matafe.springmvc.services.UserService;
-import com.matafe.springmvc.web.model.AjaxResponse;
-import com.matafe.springmvc.web.model.ContactForm;
+import com.matafe.springmvc.core.mail.service.EmailService;
+import com.matafe.springmvc.core.message.Message;
+import com.matafe.springmvc.core.message.service.MessageQueryService;
+import com.matafe.springmvc.core.message.service.MessageService;
+import com.matafe.springmvc.core.security.service.SecurityService;
+import com.matafe.springmvc.web.util.BaseController;
+import com.matafe.springmvc.web.util.model.AjaxResponse;
+import com.matafe.springmvc.web.util.model.ContactForm;
 
 /**
+ * Message Controller.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Controller
 public class MessageController extends BaseController {
 
 	@Autowired
-	private UserService userService;
+	private SecurityService userService;
 
 	@Autowired
 	private MessageService messageService;

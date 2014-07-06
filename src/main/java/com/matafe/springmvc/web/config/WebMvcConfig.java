@@ -19,10 +19,13 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
+ * <p>
+ * Application Web Configuration.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Configuration
-@ComponentScan(basePackages = { "com.matafe.springmvc" }, useDefaultFilters = false, includeFilters = @Filter({ Controller.class }))
+@ComponentScan(basePackages = { "com.matafe.springmvc.web" }, useDefaultFilters = false, includeFilters = @Filter({ Controller.class }))
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 

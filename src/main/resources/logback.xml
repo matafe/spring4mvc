@@ -16,7 +16,7 @@
     </encoder>
   </appender>
   
-  <logger name="com.matafe" level="DEBUG">
+  <logger name="com.matafe" level="DEBUG" additivity="false">
     <appender-ref ref="CONSOLE" />
 	<appender-ref ref="FILE" />
   </logger>

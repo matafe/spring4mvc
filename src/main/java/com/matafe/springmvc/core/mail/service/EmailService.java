@@ -1,4 +1,4 @@
-package com.matafe.springmvc.services;
+package com.matafe.springmvc.core.mail.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -6,11 +6,16 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
+import com.matafe.springmvc.core.util.AbstractService;
+
 /**
+ * <p>
+ * Email Service.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Service
-public class EmailService {
+public class EmailService extends AbstractService {
 
 	@Autowired
 	private Environment env;

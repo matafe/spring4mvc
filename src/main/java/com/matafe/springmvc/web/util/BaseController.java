@@ -1,4 +1,4 @@
-package com.matafe.springmvc.web;
+package com.matafe.springmvc.web.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,10 +8,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import com.matafe.springmvc.config.SecurityUser;
-import com.matafe.springmvc.entities.User;
+import com.matafe.springmvc.core.config.SecurityUser;
+import com.matafe.springmvc.core.security.User;
 
 /**
+ * Base Controller
+ * 
  * @author Mauricio T. Ferraz
  */
 public abstract class BaseController {

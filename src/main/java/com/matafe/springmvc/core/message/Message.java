@@ -1,4 +1,4 @@
-package com.matafe.springmvc.entities;
+package com.matafe.springmvc.core.message;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +15,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.matafe.springmvc.core.security.User;
+
 /**
+ * <p>
+ * Represents a Message.
+ * 
  * @author Mauricio T. Ferraz
  */
 @Entity
@@ -28,41 +33,44 @@ public class Message implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Integer id;
+	private Long id;
+
 	@Column(nullable = false)
 	private String text;
-	@Column(name = "creation_date")
+
+	@Column(name = "creation_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate = new Date();
+
 	@ManyToOne
-	@JoinColumn(name = "created_by")
+	@JoinColumn(name = "created_by", nullable = false)
 	private User createdBy;
 
 	public Message() {
 	}
 
-	public Message(Integer id, String text) {
+	public Message(Long id, String text) {
 		this.id = id;
 		this.text = text;
 	}
 
-	public Message(Integer id, String text, Date creationDate) {
+	public Message(Long id, String text, Date creationDate) {
 		this.id = id;
 		this.text = text;
 		this.creationDate = creationDate;
 	}
 
-	public Message(Integer id, String text, User createdBy) {
+	public Message(Long id, String text, User createdBy) {
 		this.id = id;
 		this.text = text;
 		this.createdBy = createdBy;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -88,6 +96,11 @@ public class Message implements Serializable {
 
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	@Override
+	public String toString() {
+		return "Message [id=" + id + ", text=" + text + "]";
 	}
 
 }

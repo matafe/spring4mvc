@@ -1,4 +1,4 @@
-package com.matafe.springmvc.config;
+package com.matafe.springmvc.core.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,8 +9,8 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.matafe.springmvc.entities.Role;
-import com.matafe.springmvc.entities.User;
+import com.matafe.springmvc.core.security.Role;
+import com.matafe.springmvc.core.security.User;
 
 /**
  * @author Mauricio T. Ferraz
@@ -48,7 +48,7 @@ public class SecurityUser extends
 	public static List<GrantedAuthority> getGrantedAuthorities(User user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		for (Role role : user.getRoles()) {
-			authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
 		return authorities;
 	}
